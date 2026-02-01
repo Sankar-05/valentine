@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #fff5f5; }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen font-sans">
+
+    <div id="main-card" class="text-center p-8 bg-white rounded-3xl shadow-xl max-w-sm border border-pink-100">
+        <div class="text-6xl mb-4 floating">💝</div>
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Will you be my Valentine?</h1>
+        
+        <div class="flex gap-4 justify-center relative" id="button-container">
+            <button onclick="celebrate()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-8 rounded-full transition-all">
+                Yes
+            </button>
+            <button id="no-btn" onmouseover="moveButton()" class="bg-gray-200 text-gray-600 font-bold py-2 px-8 rounded-full absolute left-32 transition-all duration-75">
+                No
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            const btn = document.getElementById('no-btn');
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('main-card').innerHTML = `
+                <div class="text-6xl mb-4">🎉</div>
+                <h1 class="text-2xl font-bold text-pink-600">Yay! Best decision ever. ❤️</h1>
+                <p class="mt-4 text-gray-500 italic">I'll pick you up at 7!</p>
+            `;
+        }
+    </script>
+</body>
+</html>
