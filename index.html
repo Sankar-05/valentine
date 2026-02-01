@@ -12,7 +12,6 @@
         .font-handwritten { font-family: 'Caveat', cursive; }
         .hidden-content { display: none; }
         
-        /* Parchment Texture Effect */
         .parchment {
             background-color: #f4ecd8;
             background-image: 
@@ -22,7 +21,6 @@
             box-shadow: inset 0 0 100px rgba(184, 168, 131, 0.3), 0 20px 50px rgba(0,0,0,0.1);
         }
 
-        /* Crawling Animation - Wobble walk from left to center */
         @keyframes crawl {
             0% { transform: translateX(-150%) rotate(-10deg); }
             25% { transform: translateX(-100%) rotate(10deg); }
@@ -30,9 +28,7 @@
             75% { transform: translateX(-25%) rotate(10deg); }
             100% { transform: translateX(0%) rotate(0deg); }
         }
-        .animate-crawl {
-            animation: crawl 3.5s ease-out forwards;
-        }
+        .animate-crawl { animation: crawl 3.5s ease-out forwards; }
 
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float {
@@ -53,12 +49,12 @@
 <body class="flex flex-col items-center justify-center min-h-screen">
 
     <audio id="main-audio" loop>
-        <source src="song.mp3" type="audio/mpeg">
+        <source src="song.mp3?v=1" type="audio/mpeg">
     </audio>
 
     <div id="gate" class="z-30 bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl text-center border-4 border-pink-100 max-w-sm mx-4">
         <div class="text-5xl mb-4 floating">✨</div>
-        <h2 class="text-2xl font-bold text-pink-500 mb-6">Knock knock! <br>Enter the secret word:</h2>
+        <h2 class="text-2xl font-bold text-pink-500 mb-6 font-main">Knock knock! <br>Enter the secret word:</h2>
         <input type="text" id="pass-input" placeholder="Hint: Where we first met" 
             class="w-full p-3 rounded-full border-2 border-pink-200 outline-none text-center text-pink-600 focus:border-pink-400 mb-6">
         <button onclick="checkPass()" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 px-8 rounded-full transition-all shadow-md">
@@ -69,11 +65,11 @@
 
     <div id="main-content" class="hidden-content flex-col items-center p-6 text-center z-10">
         <div class="bg-white/90 p-8 md:p-12 rounded-[3rem] shadow-2xl max-w-xl border-t-8 border-pink-300">
-            <h1 class="text-5xl md:text-6xl font-handwritten text-pink-500 mb-6">Hi Lalluuu! ❤️</h1>
+            <h1 class="text-5xl md:text-6xl font-handwritten text-pink-500 mb-6 text-center">Hi Lalluuu! ❤️</h1>
             <p class="text-lg text-gray-600 mb-8 leading-relaxed">
                 I wanted to make something special just for you. Every day with you feels like a dream and I'm so lucky to have you in my life.
             </p>
-            <h2 class="text-3xl font-bold text-pink-400 mb-8">Will you be my Valentine?</h2>
+            <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Will you be my Valentine?</h2>
             
             <div class="flex gap-6 justify-center relative h-16">
                 <button onclick="showPanda()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-10 rounded-full shadow-lg transform active:scale-95 transition-all">
@@ -110,8 +106,7 @@
                 Yayyyy!!! ❤️🕺✨
             </h1>
             
-            <div id="typewriter" class="text-left space-y-10 text-amber-950 leading-relaxed text-2xl md:text-3xl font-handwritten">
-                </div>
+            <div id="typewriter" class="text-left space-y-10 text-amber-950 leading-relaxed text-2xl md:text-3xl font-handwritten"></div>
 
             <div id="sappy-note" class="hidden text-xl italic opacity-80 pt-6 mt-10 border-t border-amber-200 font-sans text-amber-900">
                 And yeah, I know you're not into sappy shit like this so I'll wrap things up. Thank you for being so patient with me and just being you. I'm really proud of what we have and what the future has in store for us &lt;3
@@ -147,8 +142,7 @@
 
         function showPanda() {
             document.getElementById('main-content').style.display = 'none';
-            document.getElementById('panda-delivery').classList.remove('hidden-content');
-            document.getElementById('panda-delivery').classList.add('flex');
+            document.getElementById('panda-delivery').classList.remove('hidden-content').add('flex');
             document.getElementById('moving-panda').classList.add('animate-crawl');
             setTimeout(() => {
                 document.getElementById('panda-bubble').style.opacity = '1';
@@ -157,9 +151,9 @@
         }
 
         function acceptScroll() {
-            // Play Audio
+            // Force Audio Playback from song.mp3
             const audio = document.getElementById('main-audio');
-            audio.play().catch(e => console.log("Audio play blocked", e));
+            audio.play().catch(e => console.log("Audio play blocked by browser. This is normal until user interaction."));
 
             document.getElementById('panda-delivery').style.display = 'none';
             const final = document.getElementById('final-screen');
@@ -179,7 +173,6 @@
         function typeWriter(text, i, fnCallback) {
             const container = document.getElementById("letter-container");
             const display = document.getElementById("typewriter");
-
             if (i < text.length) {
                 let char = text.charAt(i);
                 display.innerHTML += (char === '\n') ? '<br>' : char;
