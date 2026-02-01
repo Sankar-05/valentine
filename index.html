@@ -48,13 +48,13 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen">
 
-    <audio id="main-audio" loop>
-        <source src="song.mp3?v=1" type="audio/mpeg">
-    </audio>
+    <div id="youtube-container" style="display:none;">
+        <div id="player"></div>
+    </div>
 
     <div id="gate" class="z-30 bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl text-center border-4 border-pink-100 max-w-sm mx-4">
         <div class="text-5xl mb-4 floating">✨</div>
-        <h2 class="text-2xl font-bold text-pink-500 mb-6 font-main">Knock knock! <br>Enter the secret word:</h2>
+        <h2 class="text-2xl font-bold text-pink-500 mb-6">Knock knock! <br>Enter the secret word:</h2>
         <input type="text" id="pass-input" placeholder="Hint: Where we first met" 
             class="w-full p-3 rounded-full border-2 border-pink-200 outline-none text-center text-pink-600 focus:border-pink-400 mb-6">
         <button onclick="checkPass()" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 px-8 rounded-full transition-all shadow-md">
@@ -116,13 +116,44 @@
         </div>
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
-        const secretWord = 'fpga lab';
+        // --- 🎵 PASTE YOUR YOUTUBE LINK HERE 🎵 ---
+        const youtubeLink = "https://youtu.be/450p7goxZqg?list=RD450p7goxZqg"; 
+        // ------------------------------------------
+
+        let player;
         const message = `You just made me the happiest guy ever. I can't wait to celebrate with you!\n\nThese past 8 months with you have meant more to me than I can ever put into words. We've shared a lot of moments, both highs as well as lows. But instead of breaking us, they've only strengthened what we had.\n\nEvery obstacle we've faced has only reminded me how much I value the idea of us and how grateful I am to grow together with you.\n\nYou are such a warm person and you make me so happy. The way you get shy, that stupid smile of yours, and the way you make even the most mundane of days seem exciting are all reasons why I fell for you.\n\nBut every time we are together, you'd do some little thing or the other and I can feel myself falling for you all over again. I really like you, Lalitha, and I wouldn't trade what we have for anything else.\n\nThank you for choosing me.`;
+
+        // Function to extract ID from various YouTube link formats
+        function getYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        // Initialize YouTube Player
+        function onYouTubeIframeAPIReady() {
+            const videoId = getYouTubeId(youtubeLink);
+            if (videoId) {
+                player = new YT.Player('player', {
+                    height: '0',
+                    width: '0',
+                    videoId: videoId,
+                    playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId },
+                    events: { 'onReady': onPlayerReady }
+                });
+            }
+        }
+
+        function onPlayerReady(event) {
+            console.log("Music engine ready.");
+        }
 
         function checkPass() {
             const input = document.getElementById('pass-input').value.toLowerCase();
-            if (input === secretWord || input === 'fpga') { 
+            if (input === 'fpga lab' || input === 'fpga') { 
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden-content');
                 document.getElementById('main-content').classList.add('flex');
@@ -142,8 +173,11 @@
 
         function showPanda() {
             document.getElementById('main-content').style.display = 'none';
-            document.getElementById('panda-delivery').classList.remove('hidden-content').add('flex');
+            const pandaSection = document.getElementById('panda-delivery');
+            pandaSection.classList.remove('hidden-content');
+            pandaSection.classList.add('flex');
             document.getElementById('moving-panda').classList.add('animate-crawl');
+
             setTimeout(() => {
                 document.getElementById('panda-bubble').style.opacity = '1';
                 document.getElementById('read-btn').style.opacity = '1';
@@ -151,9 +185,10 @@
         }
 
         function acceptScroll() {
-            // Force Audio Playback from song.mp3
-            const audio = document.getElementById('main-audio');
-            audio.play().catch(e => console.log("Audio play blocked by browser. This is normal until user interaction."));
+            // Start the music!
+            if (player && player.playVideo) {
+                player.playVideo();
+            }
 
             document.getElementById('panda-delivery').style.display = 'none';
             const final = document.getElementById('final-screen');
