@@ -10,17 +10,25 @@
         body { font-family: 'Quicksand', sans-serif; background-color: #fff0f3; overflow-x: hidden; }
         .font-handwritten { font-family: 'Caveat', cursive; }
         .hidden-content { display: none; }
+        
+        /* Floating animation for icons */
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
+
+        /* Heart animation */
         .heart { position: absolute; color: #ff85a1; opacity: 0.6; animation: rise 5s linear infinite; z-index: 1; }
         @keyframes rise {
             from { transform: translateY(100vh) scale(0); opacity: 1; }
             to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
-        /* Custom scrollbar for the long message */
+
+        /* Cursor blinking effect */
+        .cursor { border-right: 3px solid #f472b6; animation: blink 0.7s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
         .custom-scroll::-webkit-scrollbar { width: 5px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #fbcfe8; border-radius: 10px; }
@@ -28,7 +36,7 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen">
 
-    <div id="gate" class="z-10 bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl text-center border-4 border-pink-100 max-w-sm mx-4">
+    <div id="gate" class="z-20 bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl text-center border-4 border-pink-100 max-w-sm mx-4">
         <div class="text-5xl mb-4 floating">✨</div>
         <h2 class="text-2xl font-bold text-pink-500 mb-6">Knock knock! <br>Enter the secret word:</h2>
         <input type="text" id="pass-input" placeholder="Hint: Where we first met" 
@@ -36,7 +44,7 @@
         <button onclick="checkPass()" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 px-8 rounded-full transition-all shadow-md">
             Open 🌸
         </button>
-        <p id="error-msg" class="text-pink-400 mt-4 text-sm hidden font-bold">That's incorrect, try again niggesh 😈.</p>
+        <p id="error-msg" class="text-pink-400 mt-4 text-sm hidden font-bold">Incorrect! Try again niggesh 😈.</p>
     </div>
 
     <div id="main-content" class="hidden-content flex-col items-center p-6 text-center z-10">
@@ -46,7 +54,6 @@
                 I wanted to make something special just for you. Every day with you feels like a dream and I'm so lucky to have you in my life.
             </p>
             <h2 class="text-3xl font-bold text-pink-400 mb-8">Will you be my Valentine?</h2>
-            
             <div class="flex gap-6 justify-center relative h-16">
                 <button onclick="celebrate()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-10 rounded-full shadow-lg transform active:scale-95 transition-all">
                     Yes! ✨
@@ -58,43 +65,18 @@
         </div>
     </div>
 
-    <div id="final-screen" class="hidden-content flex-col items-center p-6 z-10 w-full max-w-2xl mx-auto">
-        <div class="bg-white/95 p-8 md:p-12 rounded-[3rem] shadow-2xl border-b-8 border-pink-300 overflow-y-auto max-h-[85vh] custom-scroll">
-            <h1 class="text-5xl md:text-6xl font-handwritten text-pink-600 mb-8 text-center">
-                Yayyyy!!! ❤️🕺✨
-            </h1>
+    <div id="final-screen" class="hidden-content flex-col items-center p-4 z-10 w-full max-w-2xl mx-auto">
+        <div class="bg-white/95 p-10 md:p-16 rounded-[3rem] shadow-2xl border-b-8 border-pink-300 overflow-y-auto max-h-[90vh] custom-scroll">
+            <h1 class="text-5xl md:text-6xl font-handwritten text-pink-600 mb-10 text-center">Yayyyy!!! ❤️🕺✨</h1>
             
-            <div class="text-left space-y-6 text-gray-700 leading-relaxed text-lg">
-                <p>
-                    You just made me the happiest guy ever. I can't wait to celebrate with you! 
-                </p>
-                
-                <p>
-                    These past <strong>8 months</strong> with you have meant more to me than I can ever put into words. We've shared a lot of moments, both highs as well as lows. But instead of breaking us, they've only strengthened what we had.
-                </p>
+            <div id="typewriter" class="text-left space-y-10 text-gray-700 leading-relaxed text-2xl md:text-3xl font-handwritten min-h-[300px]">
+                </div>
 
-                <p>
-                    Every obstacle we've faced has only reminded me how much I value the idea of us and how grateful I am to grow together with you.
-                </p>
-
-                <p>
-                    You are such a warm person and you make me so happy. The way you get shy, that stupid smile of yours, and the way you make even the most mundane of days seem exciting are all reasons why I fell for you.
-                </p>
-
-                <p>
-                    But every time we are together, you'd do some little thing or the other and I can feel myself falling for you all over again. I really like you, <strong>Lalitha</strong>, and I wouldn't trade what we have for anything else.
-                </p>
-
-                <p class="font-handwritten text-4xl text-pink-500 pt-4 text-center">
-                    Thank you for choosing me.
-                </p>
-                
-                <p class="text-base italic opacity-75 pt-4 border-t border-pink-100">
-                    And yeah, I know you're not into sappy shit like this so I'll wrap things up. Thank you for being so patient with me and just being you. I'm really proud of what we have and what the future has in store for us <3
-                </p>
+            <div id="sappy-note" class="hidden text-xl italic opacity-80 pt-6 mt-10 border-t border-pink-100 font-sans">
+                And yeah, I know you're not into sappy shit like this so I'll wrap things up. Thank you for being so patient with me and just being you. I'm really proud of what we have and what the future has in store for us &lt;3
             </div>
 
-            <div class="mt-10 text-5xl flex gap-4 justify-center">☁️ 🧸 🍰</div>
+            <div id="final-emojis" class="hidden mt-12 text-5xl flex gap-6 justify-center">☁️ 🧸 🍰</div>
         </div>
     </div>
 
@@ -102,7 +84,6 @@
         // 1. Password Check
         function checkPass() {
             const input = document.getElementById('pass-input').value.toLowerCase();
-            // Checking for 'fpga lab' or just 'fpga'
             if (input === 'fpga lab' || input === 'fpga') { 
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden-content');
@@ -114,30 +95,53 @@
             }
         }
 
-        // 2. The "No" Button Dodger
+        // 2. Button Dodger
         function moveButton() {
             const btn = document.getElementById('no-btn');
-            const x = Math.random() * (window.innerWidth - 150);
-            const y = Math.random() * (window.innerHeight - 100);
             btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+            btn.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
         }
 
-        // 3. Show Final Message
+        // 3. The Letter Logic
+        const message = `You just made me the happiest guy ever. I can't wait to celebrate with you!\n\nThese past 8 months with you have meant more to me than I can ever put into words. We've shared a lot of moments, both highs as well as lows. But instead of breaking us, they've only strengthened what we had.\n\nEvery obstacle we've faced has only reminded me how much I value the idea of us and how grateful I am to grow together with you.\n\nYou are such a warm person and you make me so happy. The way you get shy, that stupid smile of yours, and the way you make even the most mundane of days seem exciting are all reasons why I fell for you.\n\nBut every time we are together, you'd do some little thing or the other and I can feel myself falling for you all over again. I really like you, Lalitha, and I wouldn't trade what we have for anything else.\n\nThank you for choosing me.`;
+
+        function typeWriter(text, i, fnCallback) {
+            if (i < text.length) {
+                let char = text.charAt(i);
+                // Handle new lines for the animation
+                if (char === '\n') {
+                    document.getElementById("typewriter").innerHTML += '<br>';
+                } else {
+                    document.getElementById("typewriter").innerHTML += char;
+                }
+                
+                // Speed of "writing" (adjust 40 to go faster or slower)
+                setTimeout(function() {
+                    typeWriter(text, i + 1, fnCallback)
+                }, 40);
+            } else if (typeof fnCallback == 'function') {
+                fnCallback();
+            }
+        }
+
         function celebrate() {
             document.getElementById('main-content').style.display = 'none';
             const final = document.getElementById('final-screen');
             final.classList.remove('hidden-content');
             final.classList.add('flex');
             
-            // Trigger more hearts for the celebration!
-            for(let i=0; i<20; i++) {
-                setTimeout(createSingleHeart, i * 100);
-            }
+            // Start the writing effect
+            setTimeout(() => {
+                typeWriter(message, 0, function() {
+                    // Show the sappy note and emojis after the letter is done
+                    document.getElementById('sappy-note').classList.remove('hidden');
+                    document.getElementById('final-emojis').classList.remove('hidden');
+                });
+            }, 500);
         }
 
-        // 4. Background Hearts Logic
+        // Background Hearts
         function createSingleHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
@@ -152,12 +156,7 @@
             setInterval(createSingleHeart, 400);
         }
 
-        // Allow "Enter" key for password
-        document.getElementById('pass-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkPass();
-            }
-        });
+        document.getElementById('pass-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPass(); });
     </script>
 </body>
 </html>
