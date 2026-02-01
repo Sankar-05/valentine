@@ -22,7 +22,7 @@
             box-shadow: inset 0 0 100px rgba(184, 168, 131, 0.3), 0 20px 50px rgba(0,0,0,0.1);
         }
 
-        /* Crawling Animation - Moves from left to center with a wobble */
+        /* Crawling Animation */
         @keyframes crawl {
             0% { transform: translateX(-150%) rotate(-10deg); }
             25% { transform: translateX(-100%) rotate(10deg); }
@@ -52,6 +52,10 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen">
 
+    <div id="music-player" class="hidden">
+        <iframe id="youtube-audio" width="0" height="0" src="" frameborder="0" allow="autoplay"></iframe>
+    </div>
+
     <div id="gate" class="z-30 bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl text-center border-4 border-pink-100 max-w-sm mx-4">
         <div class="text-5xl mb-4 floating">✨</div>
         <h2 class="text-2xl font-bold text-pink-500 mb-6">Knock knock! <br>Enter the secret word:</h2>
@@ -60,13 +64,13 @@
         <button onclick="checkPass()" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 px-8 rounded-full transition-all shadow-md">
             Open 🌸
         </button>
-        <p id="error-msg" class="text-pink-400 mt-4 text-sm hidden font-bold">That's incorrect, try again niggesh 😈.</p>
+        <p id="error-msg" class="text-pink-400 mt-4 text-sm hidden font-bold">Incorrect! Try again niggesh 😈.</p>
     </div>
 
     <div id="main-content" class="hidden-content flex-col items-center p-6 text-center z-10">
         <div class="bg-white/90 p-8 md:p-12 rounded-[3rem] shadow-2xl max-w-xl border-t-8 border-pink-300">
             <h1 class="text-5xl md:text-6xl font-handwritten text-pink-500 mb-6 text-center">Hi Lalluuu! ❤️</h1>
-            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed text-center">
                 I wanted to make something special just for you. Every day with you feels like a dream and I'm so lucky to have you in my life.
             </p>
             <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Will you be my Valentine?</h2>
@@ -82,19 +86,17 @@
         </div>
     </div>
 
-    <div id="panda-delivery" class="hidden-content flex-col items-center justify-center p-6 text-center z-20 w-full min-h-screen bg-pink-50/50 backdrop-blur-sm">
+    <div id="panda-delivery" class="hidden-content flex-col items-center justify-center p-6 text-center z-20 w-full min-h-screen bg-pink-50/50">
         <div class="panda-container relative">
             <div id="moving-panda" class="text-[140px] relative inline-block">
                 🐼
                 <span class="absolute top-2 right-4 text-5xl rotate-12">📜</span>
             </div>
-            
             <div id="panda-bubble" class="opacity-0 transition-opacity duration-700 absolute -top-20 -right-24 bg-white p-4 rounded-2xl shadow-lg border-2 border-pink-100 max-w-[220px]">
-                <p class="text-sm font-bold text-gray-700 italic">"Phew! I've got a scroll for you, Lalitha! Ready to read it?"</p>
+                <p class="text-sm font-bold text-gray-700 italic text-center">"Phew! I've got a scroll for you, Lalitha! Ready to read it?"</p>
                 <div class="absolute -bottom-2 left-4 w-4 h-4 bg-white border-b-2 border-r-2 border-pink-100 rotate-45"></div>
             </div>
         </div>
-
         <button id="read-btn" onclick="acceptScroll()" class="opacity-0 transition-opacity duration-700 mt-12 bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-12 rounded-full shadow-xl transform hover:scale-105 transition-all text-xl">
             Read Scroll 🎀
         </button>
@@ -105,34 +107,34 @@
             <h1 class="text-5xl md:text-6xl font-handwritten text-amber-900 mb-10 text-center border-b border-amber-200 pb-6">
                 Yayyyy!!! ❤️🕺✨
             </h1>
-            
-            <div id="typewriter" class="text-left space-y-10 text-amber-950 leading-relaxed text-2xl md:text-3xl font-handwritten">
-                </div>
-
+            <div id="typewriter" class="text-left space-y-10 text-amber-950 leading-relaxed text-2xl md:text-3xl font-handwritten"></div>
             <div id="sappy-note" class="hidden text-xl italic opacity-80 pt-6 mt-10 border-t border-amber-200 font-sans text-amber-900">
                 And yeah, I know you're not into sappy shit like this so I'll wrap things up. Thank you for being so patient with me and just being you. I'm really proud of what we have and what the future has in store for us &lt;3
             </div>
-
             <div id="final-emojis" class="hidden mt-12 text-5xl flex gap-6 justify-center pb-10">☁️ 🧸 🍰</div>
         </div>
     </div>
 
     <script>
-        // 1. Password Check
+        // --- CONFIGURATION ---
+        // Find your song on YouTube and copy the ID (the part after v=)
+        const youtubeVideoId = 'dQw4w9WgXcQ'; // Replace with your song ID
+        const secretWord = 'fpga lab';
+        const message = `You just made me the happiest guy ever. I can't wait to celebrate with you!\n\nThese past 8 months with you have meant more to me than I can ever put into words. We've shared a lot of moments, both highs as well as lows. But instead of breaking us, they've only strengthened what we had.\n\nEvery obstacle we've faced has only reminded me how much I value the idea of us and how grateful I am to grow together with you.\n\nYou are such a warm person and you make me so happy. The way you get shy, that stupid smile of yours, and the way you make even the most mundane of days seem exciting are all reasons why I fell for you.\n\nBut every time we are together, you'd do some little thing or the other and I can feel myself falling for you all over again. I really like you, Lalitha, and I wouldn't trade what we have for anything else.\n\nThank you for choosing me.`;
+
+        // --- FUNCTIONS ---
         function checkPass() {
             const input = document.getElementById('pass-input').value.toLowerCase();
-            if (input === 'fpga lab' || input === 'fpga') { 
+            if (input === secretWord || input === 'fpga') { 
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden-content');
                 document.getElementById('main-content').classList.add('flex');
                 createHearts();
             } else {
                 document.getElementById('error-msg').classList.remove('hidden');
-                document.getElementById('pass-input').value = '';
             }
         }
 
-        // 2. Button Dodger
         function moveButton() {
             const btn = document.getElementById('no-btn');
             btn.style.position = 'fixed';
@@ -140,24 +142,22 @@
             btn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
         }
 
-        // 3. Panda Logic
         function showPanda() {
             document.getElementById('main-content').style.display = 'none';
-            const pandaSection = document.getElementById('panda-delivery');
-            pandaSection.classList.remove('hidden-content');
-            pandaSection.classList.add('flex');
-
-            const panda = document.getElementById('moving-panda');
-            panda.classList.add('animate-crawl');
-
+            document.getElementById('panda-delivery').classList.remove('hidden-content');
+            document.getElementById('panda-delivery').classList.add('flex');
+            document.getElementById('moving-panda').classList.add('animate-crawl');
             setTimeout(() => {
                 document.getElementById('panda-bubble').style.opacity = '1';
                 document.getElementById('read-btn').style.opacity = '1';
-            }, 3800); // Trigger after crawl ends
+            }, 3800);
         }
 
-        // 4. Letter Logic
         function acceptScroll() {
+            // PLAY MUSIC
+            const player = document.getElementById('youtube-audio');
+            player.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1`;
+
             document.getElementById('panda-delivery').style.display = 'none';
             const final = document.getElementById('final-screen');
             final.classList.remove('hidden-content');
@@ -167,29 +167,24 @@
                 typeWriter(message, 0, function() {
                     document.getElementById('sappy-note').classList.remove('hidden');
                     document.getElementById('final-emojis').classList.remove('hidden');
-                    const container = document.getElementById("letter-container");
-                    container.scrollTop = container.scrollHeight;
+                    document.getElementById("letter-container").scrollTop = document.getElementById("letter-container").scrollHeight;
                 });
             }, 500);
         }
 
-        const message = `You just made me the happiest guy ever. I can't wait to celebrate with you!\n\nThese past 8 months with you have meant more to me than I can ever put into words. We've shared a lot of moments, both highs as well as lows. But instead of breaking us, they've only strengthened what we had.\n\nEvery obstacle we've faced has only reminded me how much I value the idea of us and how grateful I am to grow together with you.\n\nYou are such a warm person and you make me so happy. The way you get shy, that stupid smile of yours, and the way you make even the most mundane of days seem exciting are all reasons why I fell for you.\n\nBut every time we are together, you'd do some little thing or the other and I can feel myself falling for you all over again. I really like you, Lalitha, and I wouldn't trade what we have for anything else.\n\nThank you for choosing me.`;
-
         function typeWriter(text, i, fnCallback) {
             const container = document.getElementById("letter-container");
             const display = document.getElementById("typewriter");
-
             if (i < text.length) {
                 let char = text.charAt(i);
                 display.innerHTML += (char === '\n') ? '<br>' : char;
-                container.scrollTop = container.scrollHeight; // AUTO-SCROLL
+                container.scrollTop = container.scrollHeight;
                 setTimeout(() => typeWriter(text, i + 1, fnCallback), 45);
             } else if (typeof fnCallback == 'function') {
                 fnCallback();
             }
         }
 
-        // Hearts
         function createSingleHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
