@@ -3,49 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <title>A Special Surprise ✨</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #fff5f5; }
+        body { font-family: 'Quicksand', sans-serif; background-color: #fff0f3; overflow-x: hidden; }
+        .font-handwritten { font-family: 'Caveat', cursive; }
+        .hidden-content { display: none; }
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
+        }
+        .heart { position: absolute; color: #ff85a1; opacity: 0.6; animation: rise 5s linear infinite; }
+        @keyframes rise {
+            from { transform: translateY(100vh) scale(0); opacity: 1; }
+            to { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen font-sans">
+<body class="flex flex-col items-center justify-center min-h-screen">
 
-    <div id="main-card" class="text-center p-8 bg-white rounded-3xl shadow-xl max-w-sm border border-pink-100">
-        <div class="text-6xl mb-4 floating">💝</div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Will you be my Valentine?</h1>
-        
-        <div class="flex gap-4 justify-center relative" id="button-container">
-            <button onclick="celebrate()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-8 rounded-full transition-all">
-                Yes
-            </button>
-            <button id="no-btn" onmouseover="moveButton()" class="bg-gray-200 text-gray-600 font-bold py-2 px-8 rounded-full absolute left-32 transition-all duration-75">
-                No
-            </button>
+    <div id="gate" class="z-10 bg-white/80 backdrop-blur-md p-10 rounded-[2.5rem] shadow-2xl text-center border-4 border-pink-100 max-w-sm mx-4">
+        <div class="text-5xl mb-4 floating">✨</div>
+        <h2 class="text-2xl font-bold text-pink-500 mb-6">Knock knock! <br>Enter the secret word:</h2>
+        <input type="text" id="pass-input" placeholder="Hint: Our favorite place?" 
+            class="w-full p-3 rounded-full border-2 border-pink-200 outline-none text-center text-pink-600 focus:border-pink-400 mb-6">
+        <button onclick="checkPass()" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-3 px-8 rounded-full transition-all shadow-md">
+            Open 🌸
+        </button>
+        <p id="error-msg" class="text-pink-300 mt-4 text-sm hidden">Not quite! Try again, love.</p>
+    </div>
+
+    <div id="main-content" class="hidden-content flex-col items-center p-6 text-center z-10">
+        <div class="bg-white/90 p-8 md:p-12 rounded-[3rem] shadow-2xl max-w-xl border-t-8 border-pink-300">
+            <h1 class="text-5xl md:text-6xl font-handwritten text-pink-500 mb-6">Hi Cutie! ❤️</h1>
+            <p class="text-lg text-gray-600 mb-8">
+                I wanted to make something special just for you. Every day with you feels like a dream, and I'm so lucky to have you in my life.
+            </p>
+            <h2 class="text-3xl font-bold text-pink-400 mb-8">Will you be my Valentine?</h2>
+            
+            <div class="flex gap-6 justify-center relative h-16">
+                <button onclick="celebrate()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-10 rounded-full shadow-lg transform active:scale-95 transition-all">
+                    Yes! ✨
+                </button>
+                <button id="no-btn" onmouseover="moveButton()" class="bg-pink-100 text-pink-300 font-bold py-3 px-10 rounded-full transition-all duration-75">
+                    No
+                </button>
+            </div>
         </div>
     </div>
 
+    <div id="final-screen" class="hidden-content flex-col items-center text-center p-6 animate-fadeIn z-10">
+        <h1 class="text-6xl font-handwritten text-pink-600 mb-4">Yay!! ❤️🌸✨</h1>
+        <p class="text-xl text-gray-700 max-w-md">
+            You just made me the happiest guy ever. I can't wait to celebrate with you! 
+        </p>
+        <div class="mt-8 text-5xl flex gap-4">☁️ 🧸 🍰</div>
+    </div>
+
     <script>
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
-            const btn = document.getElementById('no-btn');
-            btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+        // 1. Password Check
+        function checkPass() {
+            const input = document.getElementById('pass-input').value.toLowerCase();
+            if (input === 'vietnam' || input === 'ninh binh') { // Change to your chosen word
+                document.getElementById('gate').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden-content');
+                document.getElementById('main-content').classList.add('flex');
+                createHearts();
+            } else {
+                document.getElementById('error-msg').classList.remove('hidden');
+            }
         }
 
+        // 2. Button Dodger
+        function moveButton() {
+            const btn = document.getElementById('no-btn');
+            btn.style.position = 'fixed';
+            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        }
+
+        // 3. Success
         function celebrate() {
-            document.getElementById('main-card').innerHTML = `
-                <div class="text-6xl mb-4">🎉</div>
-                <h1 class="text-2xl font-bold text-pink-600">Yay! Best decision ever. ❤️</h1>
-                <p class="mt-4 text-gray-500 italic">I'll pick you up at 7!</p>
-            `;
+            document.getElementById('main-content').style.display = 'none';
+            const final = document.getElementById('final-screen');
+            final.classList.remove('hidden-content');
+            final.classList.add('flex');
+        }
+
+        // 4. Background Hearts
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
         }
     </script>
 </body>
